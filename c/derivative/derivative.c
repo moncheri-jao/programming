@@ -29,6 +29,8 @@ int main(void) {
 		x += .1;
 	}
 	fclose(datafile);
+	system("gcc -Wall -pedantic -lm -o derivative.exe derivative.c");
+	system("python plotter.py &");
 	return 0;
 }
 
