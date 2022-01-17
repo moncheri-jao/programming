@@ -27,7 +27,7 @@ int main () {
 	fprintf(randomfile, "%d\t%lf\n", i, x); //print randomfile numbers to file with index && tabbing
     }
     fclose(randomfile); //close the file
-    randomfile = fopen("randomfile.dat", "r+");// reopen ininverted array to file
+    randomfile = fopen("randomfile.dat", "r+"); // reopen ininverted array to file
     for (int i = 1; i < LEN + 1; i++) {
 	fscanf(randomfile, "%d %lf", &k, &x); // read k and x from file
 	*(data + LEN - k) = x; // assign x to data[LEN-k] (( INVERT ARRAY!!! ))
