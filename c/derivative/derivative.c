@@ -15,6 +15,7 @@ int main(void) {
 //
 //	MIGLIORIE
 //
+	system("gcc -Wall -pedantic -lm -o derivative.exe derivative.c"); // calls gcc and self-recompiles
 	FILE *datafile;
 	double eps = 1.e-10;
 	double range = 1.;
@@ -29,13 +30,12 @@ int main(void) {
 		x += .1;
 	}
 	fclose(datafile);
-	system("gcc -Wall -pedantic -lm -o derivative.exe derivative.c");
-	system("python plotter.py &");
+	system("python plotter.py &"); // calls python in background and shows the plot
 	return 0;
 }
 
 double f(double x) { 
-	return sqrt(x); // return math.h function or whatever
+	return cos(x); // return math.h function or whatever
 }
 
 double derivative(double (*f)(double), double x, double eps) {
