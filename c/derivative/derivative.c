@@ -15,7 +15,6 @@ int main(void) {
 //
 //	MIGLIORIE
 //
-	system("gcc -Wall -pedantic -lm -o derivative.exe derivative.c"); // calls gcc and self-recompiles
 	FILE *datafile;
 	double eps = 1.e-10;
 	double range = 1.;
