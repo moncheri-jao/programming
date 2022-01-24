@@ -43,7 +43,6 @@ int Fitness(int cgen[N][NGENI], int* model, int* count) {
 }
 
 void GeneraDNA(int cgen[N][NGENI], int* model) {
-	srand48(time(NULL));
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < NGENI; j++) {
 			*(*(cgen+i)+j) = lrand48() % 4;
