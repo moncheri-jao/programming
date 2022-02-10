@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage[]{amsmath}
+\usepackage{microtype}
+\usepackage{hyperref}
+\title{A Couple Notes on Perl}
+\author{Birrabenzina}
+\date{\today}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{Introduction}
+\subsection{Script Header and References}
+The script header must ALWAYS have:
+\begin{verbatim}
+#!<PERL PATH>
+use warnings;
+use strict;
+use Data::Dumper;
+\end{verbatim}
+As for bash, there MUST be a shebang, the other three options will (probably) explained later
+\subsection{Acronyms}
+\begin{itemize}
+\item PERL: Practical Extraction and Report Language, or Petty Eclectic Rubbish Lister
+\item CPAN: Comprehensive Perl Archive Network, see \url{www.cpan.org}
+\item DWIM: Do What I Mean, the philosophy of perl, basically
+\item AUTOVIVIFY (n.), AUTOVIVIFICATION (v.): To bring ``oneself'' to life, part of perl's dwimsiness
+\item TMTOWTDI: There is More Than One Way To Do It, as for every language
+\end{itemize}
+\subsection{Storage}
+Perl has 3 storage types
+\begin{itemize}
+\item Scalars
+\item Arrays
+\item Hashes
+\end{itemize}
+Arrays and hashes are simply more complex scalars
+\section{Scalars}
+All scalars are preceded by a dollar sign in declaration and call.\\
+A scalar can be a string, a number (int or float), a reference or a filehandle. Perl uses type inference.\\
+Every scalar is declared with the \texttt{my} reserved keyword. These are all valid declarations:
+\begin{verbatim}
+my $intnum = 69;
+my $floatnum = 69.420;
+my $chartype = 'a';
+my $stringtype = 'Glory to the Programming Republic of Perl!';
+my $reftostr = \$stringtype;
+\end{verbatim}
+N.B. Without '\texttt{use strict}' and without '\texttt{my}', the variable gets initialized either to `` '' or 0. This is an example of \textit{autovivification}. E.g.
+\begin{verbatim}
+my $pie = 3.14;
+my $diameter = 42;
+my $circumference = $pi * $diameter;
+\end{verbatim}
+Here you get that, since \texttt{\$pi} isn't declared ANYWHERE, it autovivifies into '0' and the result is 0!. This doesn't happen if you declare at the beginning of the script 
+\begin{verbatim}
+use warnings;
+use strict;
+\end{verbatim}
+\section{Strings (Scalar)}
+As we said, scalars can store strings. If you look closely at the previous snippets of code, you don't need to declare the length of the string, perl gets it automatically.
+\subsection{String Literals}
+String literals MUST be in single or double quotes, the difference being that:
+\begin{itemize}
+\item Single quotes literally give you a ``what you see is what you get'' value
+\item Double quotes include some variable interpolation during evaluation.
+\end{itemize}
+\subsection{Functions and Operators on Strings}
+\begin{itemize}
+\item \texttt{chomp(\$string)}: removes the last $\backslash$n char from the string, if it is there
+\item \texttt{\$string1.\$string2} (concatenation): Concatenates 2 strings together
+\item \texttt{\$string x(number)} (repetition): Repeats \$string \textit{number} times
+\item \texttt{length(\$string)}: Gets the length of the string
+\item \texttt{substr(\$string,\$offset,\$length)}: Gets a substring of \$string, starting \textit{offset} chars and endings after \textit{length} chars
+\item \texttt{split(/REGEXP/,\$string,\$limit)}: Breaks the string into pieces using regexps. Searching for empty strings divides it in chars
+\item \texttt{join('\$separatorstr',\$string1,\$string2)}: Stitch multiple strings into one
+\item \texttt{qw(\$string)}: Quotes automatically \$string, with single quotes
+\end{itemize}
+\section{Numbers (Scalar)}
+Perl generally uses floats for storing scalar numbers. If you use integers, it will use integers, i.e.
+\begin{verbatim}
+my $funnyint = 69; # scalar => int
+my $funnyfloat = 69.420 # scalar => float
+\end{verbatim}
+\subsection{Numeric Literals}
+Perl allows: ints, floats, scientific notation, decimal, octal, hex, as:
+\begin{itemize}
+\item Bins, beginning with '0b'
+\item Hexes, beginning with '0x'
+\item Octs, beginning with '0'
+\item Decs, the remaining
+\end{itemize}
+e.g.
+\begin{verbatim}
+my $highnumber = 3.7e8;			#sci-dec
+my $octal = 03672673;			#oct
+my $hexnum = 0xfb214e9;			#hex
+my $binnum = 0b10000111100101100;	#bin
+\end{verbatim}
+\subsection{Numeric Functions}
+\begin{itemize}
+\item \texttt{abs(number)}: absolute value
+\item \texttt{int(number)}: casts floats to ints
+\item \texttt{sin, cos, tan}: usual trig functions
+\item \texttt{base**exponent}: exponentiation macro. Use fractional numbers for roots, as usual in maths
+\item \texttt{sqrt(number)}: square root of a (positive) number
+\item \texttt{exp, log}: natural exponentiation and logarithm
+\item \texttt{rand(lim), srand(seed)}: return random numbers. rand() is a pseudorandom number generator (PRNG). Returns numbers $0\le\text{\texttt{rand(num)}}\le\texttt{num}$. \texttt{srand(seed)} seeds rand as in C. For perl 5.004 and higher it's called automatically at the beginning of the execution of the script
+\end{itemize}
+Note that when printed, numbers get AUTOMATICALLY converted to strings. If you don't want the default perl version of stringification, you can still use \texttt{sprintf(\ldots)}. It can be forced by concatenating the null string to the number as in the following snippet
+\begin{verbatim}
+my $notstring = 69;			# > 69
+my $yesstring = $notstring .= '';	# > '69'
+\end{verbatim}
+\subsection{\texttt{sprintf}}
+C much?\\
+Syntax:
+\begin{verbatim}
+sprintf(format,$list_of_vals);
+\end{verbatim}
+The format is exactly like in C, so
+\begin{itemize}
+\item \texttt{\%lx}: hex
+\item \texttt{\%lo}: oct
+\item \texttt{\%lb}: bin
+\item \texttt{\%ld}: int
+\item \texttt{\%f}: float
+\item \texttt{\%e}: scientific notation
+\end{itemize}
+\subsection{Numification}
+WIP<++>
+\end{document}
