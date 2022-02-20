@@ -1,0 +1,67 @@
+body {
+	background-image: url(../img/perl-republic.red.png);
+	border-color: #00fff9;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+a {
+	list-style-image: url(../img/emojihand.png);
+	font-family: monospace;
+	/*color: #9600ff*/
+	color: cyan;
+	text-shadow: -1px 1px 2px #000,
+				  1px 1px 2px #000,
+				  1px -1px 0 #000,
+				  -1px -1px 0 #000;
+	font-size: 28px;
+}
+
+
+h1 {	
+	border-style: solid;
+	border-color: black;
+	font-family: monospace;
+	font-size: 40px;
+	text-align: center;
+	color: white;
+	text-shadow: -1px 1px 2px #000,
+				  1px 1px 2px #000,
+				  1px -1px 0 #000,
+				  -1px -1px 0 #000;
+	font-family: monospace;
+}
+
+h2 {
+	color: white;
+	text-shadow: -1px 1px 2px #000,
+				  1px 1px 2px #000,
+				  1px -1px 0 #000,
+				  -1px -1px 0 #000;
+	font-family: monospace;
+	font-size: 40px;
+	padding-left: 15px;
+}
+
+ul {
+	font-family: monospace;
+	color: white;
+	text-shadow: -1px 1px 2px #000,
+				  1px 1px 2px #000,
+				  1px -1px 0 #000,
+				  -1px -1px 0 #000;
+	padding-bottom: 50px;
+	padding-top: 0px;
+	border-style: solid;
+	border-color: black;
+}
+
+li {
+	padding-top: 15px;
+}
+div {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+}

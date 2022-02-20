@@ -20,7 +20,7 @@ int main(void) {
 	stream = fopen("emittanza.dat", "w");
 	if (stream == NULL) {
 		printf("ERRORE: Non è stato possibile creare il file 'emittanza.dat'\n");
-		exit(-1);
+		exit(1);
 	}
 	N = immettiN();
 	// T tra 0.5 e 1
