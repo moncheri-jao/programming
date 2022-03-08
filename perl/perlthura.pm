@@ -9,15 +9,15 @@ sub help {
 	say "      \t -f open from folder";
 	say "      \t -h print this help";
 	say "Its usage comes from being too lazy to open it myself while using ViM writing notes, enjoy, -MC";
+	return;
 }
 my $arg = $ARGV[0];
-if($ARGV[0] eq "") {
+if( ! length $ARGV[0] ) {
 	say "ERROR: no arguments given";
 	help();
 	exit 1;
 } else {
 	my $arg = $ARGV[0];
-	say $arg;
 }
 if($arg eq "-h") {
 	help();

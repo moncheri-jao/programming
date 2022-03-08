@@ -4,44 +4,68 @@ use strict;
 use warnings;
 
 sub latexmk {
-	my ($command) = @_;
+	my @args = @_;
+	my $command = $args[0];
+	my $sub = $args[1];
 	my @path = `$command`; # get filenames
 	my @tex = grep { grep { /(\w.+)\.(tex)/g } $_ } @path; # grep out the .tex files
 	my $texscope = @tex; # how long is the list?
 	for(my $i=0;$i<$texscope;$i++) {
-		print $tex[$i]; # print current tex file
-		system("latexmk -lualatex $tex[$i]"); # latexmk all files
+		if($sub == 1) {
+			system("cd ../ && latexmk -lualatex $tex[$i]"); # latexmk all files
+		} else {
+			system("latexmk -lualatex $tex[$i]"); # latexmk all files
+		}
 	}
+	return;
 }
 sub lualatex {
-	my ($command) = @_;
+	my @args = @_;
+	my $command = $args[0];
+	my $sub = $args[1];
 	my @path = `$command`; # get filenames
 	my @tex = grep { grep { /(\w.+)\.(tex)/g } $_ } @path; # grep out the .tex files
 	my $texscope = @tex; # how long is the list?
 	for(my $i=0;$i<$texscope;$i++) {
-		print $tex[$i]; # print current tex file
-		system("lualatex $tex[$i]"); # latexmk all files
+		if($sub == 1) {
+			system("cd ../ && latexmk -lualatex $tex[$i]"); # latexmk all files
+		} else {
+			system("lualatex $tex[$i]"); # latexmk all files
+		}
 	}
+	return;
 }
 sub pdflatex {
-	my ($command) = @_;
+	my @args = @_;
+	my $command = $args[0];
+	my $sub = $args[1];
 	my @path = `$command`; # get filenames
 	my @tex = grep { grep { /(\w.+)\.(tex)/g } $_ } @path; # grep out the .tex files
 	my $texscope = @tex; # how long is the list?
 	for(my $i=0;$i<$texscope;$i++) {
-		print $tex[$i]; # print current tex file
-		system("pdflatex $tex[$i]"); # latexmk all files
+		if($sub == 1) {
+			system("cd ../ && latexmk -lualatex $tex[$i]"); # latexmk all files
+		} else {
+			system("pdflatex $tex[$i]"); # latexmk all files
+		}
 	}
+	return;
 }
 sub xelatex {
-	my ($command) = @_;
+	my @args = @_;
+	my $command = $args[0];
+	my $sub = $args[1];
 	my @path = `$command`; # get filenames
 	my @tex = grep { grep { /(\w.+)\.(tex)/g } $_ } @path; # grep out the .tex files
 	my $texscope = @tex; # how long is the list?
 	for(my $i=0;$i<$texscope;$i++) {
-		print $tex[$i]; # print current tex file
-		system("xelatex $tex[$i]"); # latexmk all files
+		if($sub == 1) {
+			system("cd ../ && latexmk -lualatex $tex[$i]"); # latexmk all files
+		} else {
+			system("xelatex $tex[$i]"); # latexmk all files
+		}
 	}
+	return;
 }
 sub help {
 	say "Welcome to the Perlxmk LaTeX compiler helper. It can compile MULTIPLE .tex files with your chosen compilator.";
@@ -55,10 +79,12 @@ sub help {
 	say "Completed testing 04/03/2022 1748Z, Rome, Perl People's Programming Republic";
 	say "Author, tester and self appointed Supreme Leader of the PPPR:";
 	say "-MC";
+	return;
 }
 
 my $arg = $ARGV[0];
 my $command = "ls -d \$(pwd)/*";
+my $sub = 0;
 if( ! length $ARGV[0] ) {
 	say "ERROR: no compiler chosen";
 	exit 1;
@@ -67,13 +93,14 @@ if( ! length $ARGV[0] ) {
 } elsif( length $ARGV[0] && $ARGV[1] eq "--subfile") {
 	$arg = $ARGV[0];
 	$command = "ls -d \$(dirname \$(pwd))/*";
+	$sub = 1;
 } else {
 	say "PANIC: what????";
 	help();
 	exit 1;
 }
 if($arg eq "-d") {
-	latexmk($command);
+	latexmk($command,$sub);
 } elsif($arg eq "-l") {
 	lualatex($command);
 } elsif($arg eq "-x") {
