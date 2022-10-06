@@ -17,6 +17,7 @@ int main(void) {
 	seed = time(NULL);
 	srand48(seed);
 	gamma = gammad();
+	printf("%lf\n",gamma);
 	v[0] = 18;
 	stream = fopen("traiettoria.dat", "w");
 	fprintf(stream, "%lf\t%lf\t%lf\n",t[0],s[0],v[0]);
@@ -46,7 +47,8 @@ void printer(int caso, int i, double gamma, double* s, double* v) {
 }
 
 double gammad(void) {
-	return( drand48() + (double)(lrand48()%2) );
+	/*return( drand48() + (double)(lrand48()%2) );*/
+	return( drand48()*0.3+0.5 );
 }
 
 void passo(int i, double dt, double gamma, double* t, double* s, double* v) {

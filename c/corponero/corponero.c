@@ -50,26 +50,25 @@ int immettiN(void) {
 double planckeq(double nu, double T) {
 	return( nu*nu*nu/(exp(nu/T)-1) );
 }
-
-double MC_corponero(double T, int N, double (*f)(double,double)) {
-	double nustar = 0., numin = 0.05, fnu, maxA, integral, nu, numax;
-	unsigned long long int count = 0;
-	nustar = 2.82*T;
-	numax = 10*nustar;
-//	nustar = 2.82*10*T;
-	maxA = (numax - numin)*(f(nustar,T) - f(numin,T));
-	for(unsigned long long int i = 0; i < N; i++) {
-		nu = drand48()*( numax - numin ) + numin;
-		fnu = drand48()*f(nustar,T);
+/*funzione di integrazione MONTECARLO*/
+double MC_corponero(double T, int N, double (*f)(double,double)) { /*chiama la variabile T come parametro per calcolare f, chiama il numero di tiri da fare e poi chiama un puntatore a funzione [VEDI RIGA 71]*/
+	double nustar = 0., numin = 0.05, fnu, maxA, integral, nu, numax; /*dichiarazione variabili e inizializzazione come da esercizio*/
+	unsigned long long int count = 0; /*dichiarazione variabile di conteggio per MC INIZIALIZZATA A ZERO*/
+	nustar = 2.82*T; /*trovo valore nu per cui è max f(nu,T) [[LEGGE DI WIEN in questo caso]]*/
+	numax = 10*nustar; /*trovo la "x" massima di integrazione*/
+	maxA = (numax - numin)*(f(nustar,T) - f(numin,T)); /*trovo l'area del quadrato su cui è inscritta l'area di integrazione*/
+	for(unsigned long long int i = 0; i < N; i++) { /*faccio partire l'algoritmo tra 0 ed il numero N che gli ho passato in argomento*/
+		nu = drand48()*( numax - numin ) + numin; /*trovo una "x" a caso all'interno dell'intervallo di integrazione*/
+		fnu = drand48()*f(nustar,T); /*trovo una "y" a caso dentro il RETTANGOLO SCELTO*/
 //		printf("nu = %lf, f(nu,T) = %lf\n", nu, fnu);
 		if(fnu <= f(nu,T)) {
-			count++;
+			count++; /*se la "y" è sotto la y vera della funzione allora incremento la variabile count*/
 		}
 	}
 	printf("count = %lld, maxA = %lf\n", count, maxA);
-	integral = (count/(double)N)*maxA;
+	integral = (count/(double)N)*maxA; /*faccio la formuletta*/
 	return(integral);
-}
+}/*Il puntatore a funzione (l'ultimo della lista delle variabili della funzione) qui ti dice come verrà chiamata la funzione DENTRO LO SCOPE DELLA FUNZIONE. Se scrivo f(nu,T) qui, se nel main scrivo alla posizione del puntatore la funzione planckeq [vedi riga 50] lui pesca la funzione e la usa qua dentro dove ho scritto f(nu,T). ATTENZIONE! Se nel main uso una funzione diversa da quella per cui l'ho inteso nel prototipo E nella stesura del codice della funzione, devo stare attento che sia dello stesso tipo, CIOÈ: se qua mi ciuccia due double e ciccia un double, posso dargli nel main solo funzioni che ciucciano due double e cicciano un double*/
 
 void calcspectra (double spectra[][3], double (*f)(double,double), FILE* stream) {
 	double nu = 0.05;
