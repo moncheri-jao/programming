@@ -1,0 +1,15 @@
+#!/bin/sh
+wifi=$(ifconfig wlo1 | grep 'inet' | cut -d: -f2 | awk '{print $2}' | tr -d "\n")
+ethname=$(ifconfig | grep 'enp' | grep 'RUNNING' | awk '{print $1}' | cut -d: -f1)
+if ! [ -z "$ethname" ]; then
+	eth=$(ifconfig "$ethname" | grep 'inet' | cut -d: -f2 | awk '{print $2}' | tr -d "\n")
+fi
+if [[ -z "$wifi" && -z "$eth" ]]; then
+	echo "disconnected"
+elif [[ -z "$eth" ]]; then
+	echo "$wifi"
+elif [[ -z "$wifi" ]]; then
+	echo "$eth"
+elif [[ "$wifi" != "" && "$eth" != "" ]]; then
+	echo "E: $eth, W: $wifi"
+fi

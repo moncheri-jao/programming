@@ -1,0 +1,28 @@
+#!/bin/bash
+# from i3lock manpage
+revert() {
+	xset dpms 0 0 0
+}
+# set the icon and a temporary location for the screenshot to be stored
+#icon="$HOME/.config/i3/lock-icon.png"
+tmpbg="/tmp/screen.png"
+icon="$HOME/.config/i3/lock-icon.png"
+#
+# take a screenshot
+scrot -o "$tmpbg"
+#
+#notify the user via the notification box
+notify-send -t 1500 -- "Locking the screen..."
+sleep 0.5
+# blur the screenshot by resizing and scaling back up
+convert "$tmpbg" -filter Hermite -thumbnail 20% -sample 500% "$tmpbg"
+# overlay the icon onto the screenshot
+convert "$tmpbg" "$icon" -gravity center -composite "$tmpbg"
+#
+# lock the screen with the blurred screenshot and shutdown the screen after 5s
+sleep 1
+ibus engine xkb:es:cat:cat
+trap revert HUP INT TERM
+xset +dpms dpms 10 10 10
+i3lock -n -i "$tmpbg"
+revert
