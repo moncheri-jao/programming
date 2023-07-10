@@ -1,0 +1,4 @@
+#!/bin/sh
+# Update the system and keep a log of the last update
+echo "The last update was:"
+cat "$HOME/lastupdate"

@@ -1,0 +1,58 @@
+#!/bin/sh
+freq=$(cpupower frequency-info | grep "kernel" | cut -d: -f2 | cut -d"(" -f1)
+#unit=$(cpupower frequency-info | grep "kernel" | cut -d: -f2 | cut -d"(" -f1 | cut -d" " -f3)
+num=${freq/[a-zA-Z]*/}
+freq=${freq/" "/}
+fu=${freq/\./}
+unit=${fu/[0-9][0-9][0-9]" "/}
+if [ $unit = "GHz" ]
+	then
+	num=$(bc -l <<< "$num"*100)
+	#corrected error since it wasn't dealing with fp arithmetics anymore, now it just works
+	num=${num/\.[0-9][0-9]/}
+		if [[ $num -ge 490 ]];
+		then
+			echo "$freq"
+			echo ""
+			echo "#FF0000"
+		elif [[ $num -ge 430 && $num -lt 490 ]];
+		then
+			echo "$freq"
+			echo ""
+			echo "#FFA500"
+		elif [[ $num -ge 370 && $num -lt 430 ]];
+		then
+			echo "$freq"
+			echo ""
+			echo "#FFA500"
+		elif [[ $num -ge 310 && $num -lt 370 ]];
+		then
+			echo "$freq"
+			echo ""
+			echo "#FFDA29"
+		elif [[ $num -ge 250 && $num -lt 310 ]];
+		then
+			echo "$freq"
+			echo ""
+			echo "#ADFF2F"
+		elif [[ $num -ge 190 && $num -lt 250 ]];
+		then
+			echo "$freq"
+			echo ""
+			echo "#D6FF00"
+		elif [[ $num -ge 130 && $num -lt 190 ]];
+		then
+			echo "$freq"
+			echo ""
+			echo "#76FF00"
+		elif [[ $num -ge 100 && $num -lt 130 ]];
+		then
+			echo "$freq"
+			echo ""
+			echo "#00FF00"
+		fi
+else
+	echo " $freq"
+	echo ""
+	echo "#00FF00"
+fi

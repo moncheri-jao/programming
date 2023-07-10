@@ -1,0 +1,29 @@
+#!/bin/bash
+help () {
+	echo "control quickly the CPU and screen for adjusting battery performance"
+	echo "USAGE:		"
+	echo "-o	set the ondemand governor: set the frequency dynamically as needed from the OS, aggressive changing"
+	echo "-c	set the conservative governor: set the frequency dynamically as needed from the OS. Less aggressive changing and lighter loads, also, set the brightness to 30%"
+	echo "-p	set the powersave governor: set the cpu to P-state P0, limiting the maximum frequency to 1.60GHz, set the brightness to 25%"
+	echo "-P	set the performance governor: set the cpu to P-state P2, getting the maximum power possible, set luminosity to 50%. Heavy usage of the battery charge"
+	echo "-s	set the schedutil governor: leave the frequency selection directly to the scheduler"
+	echo "-S	set your frequency and set the userspace governor. select your frequency with -f"
+}
+optstring="hcopPsS:f:"
+while getopts ${optstring} arg;
+do
+	case "${arg}" in
+		h)	help;;
+		o)	sudo cpupower frequency-set -g ondemand;;
+		c)	sudo cpupower frequency-set -g conservative
+			brightnessctl set 30%;;
+		p)	sudo cpupower frequency-set -g powersave
+			brightnessctl set 25%;;
+		P)	sudo cpupower frequency-set -g performance
+			brightnessctl set 50%;;
+		s)	sudo cpupower frequency-set -g schedutil;;
+		f)	freq="$OPTARG";;
+		S)	sudo cpupower frequency-set -g userspace
+			sudo cpupower frequency-set -f ${freq}GHz;;
+	esac
+done

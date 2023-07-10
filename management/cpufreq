@@ -1,0 +1,2 @@
+#/bin/sh
+echo "Current CPU frequency:$(cpupower frequency-info | awk '/CPU\sfrequency:\s[0-9]\.[0-9]+/' | cut -d"(" -f1 | cut -d":" -f2)"
